@@ -75,7 +75,9 @@ function header(i, now) {
   $('now-temp').textContent = fmt.deg(S.temp[i]);
   $('now-sky').textContent = skyText(S.sky[i], S.pop[i], now);
   const feels = S.feels[i], dew = S.dew[i];
-  $('now-feels').textContent = `Feels ${fmt.deg(feels)} · dew ${fmt.deg(dew)}`;
+  $('now-feels').textContent = `Feels ${fmt.deg(feels)}`;
+  const nw = t => Object.assign(document.createElement('span'), { className: 'nw', textContent: t });
+  $('now-dew').replaceChildren(nw(`Dew ${fmt.deg(dew)}`), ...(S.rh[i] != null ? [' · ', nw(`RH ${Math.round(S.rh[i])}%`)] : []));
   const gust = S.gust[i] != null && S.wind[i] != null && S.gust[i] > S.wind[i] + 3 ? ` g${fmt.mph(S.gust[i])}` : '';
   const wind = S.wind[i] == null ? '' : S.wind[i] < 1 ? `Calm${gust}` : `${compass(S.dir[i])} ${fmt.mph(S.wind[i])}${gust} mph`;
 
@@ -87,19 +89,18 @@ function header(i, now) {
     if (next < 0 && p >= 30) next = j;
   }
   let rain;
-  if (next < 0) rain = 'no rain 48h';
+  if (next < 0) rain = 'No rain 48h';
   else {
-    let peak = next;
-    for (let j = next; j < Math.min(S.pop.length, next + 12); j++) if ((S.pop[j] ?? 0) > (S.pop[peak] ?? 0)) peak = j;
     const t = fc.t0 + next * fc.step;
     const when = next === i ? 'now' : `${local(t).d === local(now).d ? '' : dayLabel(t) + ' '}${hourLabel(t)}`;
-    rain = `${Math.round(S.pop[next])}% rain ${when}${peak !== next ? ` (peak ${Math.round(S.pop[peak])}%)` : ''}`;
+    rain = `${Math.round(S.pop[next])}% rain ${when}`; // the day chips carry each day's peak
   }
-  $('now-facts').textContent = [wind, rain].filter(Boolean).join(' · ');
+  $('now-wind').textContent = wind || '\u00a0';
+  $('now-rain').textContent = rain;
   // the next sunrise or sunset
   const { rise, set } = sunTimes(now, fc.lat, fc.lon);
   const sun = now < rise ? ['Sunrise', rise] : now < set ? ['Sunset', set] : ['Sunrise', sunTimes(now + 86400, fc.lat, fc.lon).rise];
-  $('now-sun').textContent = `${sun[0]} ${new Date(sun[1] * 1000).toLocaleTimeString('en-US', { timeZone: fc.tz, hour: 'numeric', minute: '2-digit' })}`;
+  $('now-sun').textContent = `${sun[0]} ${new Date(sun[1] * 1000).toLocaleTimeString('en-US', { timeZone: fc.tz, hour: 'numeric', minute: '2-digit' }).replace(' AM', 'a').replace(' PM', 'p')}`;
   // a storm in the next 6h: light up the radar tab
   const soon = S.pop.slice(i, i + 6).some(p => (p ?? 0) >= 40);
   $('radar-tab').classList.toggle('rainy', soon);
