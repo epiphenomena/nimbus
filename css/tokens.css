@@ -1,0 +1,100 @@
+/* Design tokens. Dark is the default; prefers-color-scheme: light overrides.
+   Chart colors are validated with the dataviz skill's validate_palette.js
+   against --chart-bg in each mode (series all-pairs; lead ramp --ordinal). */
+:root {
+  color-scheme: dark;
+
+  --bg: #101418;
+  --bg-raised: #14191e;
+  --surface: #1a2026;
+  --surface-2: #232a31;
+  --line: #2b333c;
+  --text: #e3e8ee;
+  --text-dim: #9aa5b1;
+  --text-faint: #66717d;
+  --accent: #5b9ee6;
+  --accent-ink: #08121d;
+  --warn: #fab219;
+  --warn-ink: #1d1404;
+
+  /* chart chrome */
+  --chart-bg: #14191e;
+  --grid: #222a31;
+  --axis: #36404a;
+  --night: rgb(0 0 0 / 0.28);
+  --midnight: #3a444f;
+  --now: #e3e8ee;
+  --ref: #4a5560;
+
+  /* series (categorical slots: orange, violet, aqua, blue) */
+  --s-temp: #d95926;
+  --s-feels: #9085e9;
+  --s-dew: #199e70;
+  --s-rain: #3987e5;
+  --s-wind: #3987e5;
+  --s-gust: #7b8794;     /* recessive companion of wind */
+  --s-sky: #8b96a3;
+  --s-actual: #e3e8ee;   /* ink */
+  /* lead ramp: near = strong, far = faded (blue 150/300/400/500/600) */
+  --lead-0: #9ec5f4;
+  --lead-1: #6da7ec;
+  --lead-2: #3987e5;
+  --lead-3: #256abf;
+  --lead-4: #184f95;
+  --bias-pos: #e66767;
+  --bias-neg: #3987e5;
+
+  --font-ui: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+
+  --gutter: 16px;
+  --tab-h: 56px;
+  --radius: 10px;
+  --app-max: 720px;
+
+  --safe-t: env(safe-area-inset-top, 0px);
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  --safe-l: env(safe-area-inset-left, 0px);
+  --safe-r: env(safe-area-inset-right, 0px);
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color-scheme: light;
+    --bg: #f1f3f5;
+    --bg-raised: #fbfbfa;
+    --surface: #e8ebee;
+    --surface-2: #dde1e5;
+    --line: #d3d8dd;
+    --text: #15191d;
+    --text-dim: #535c66;
+    --text-faint: #8a939c;
+    --accent: #1c5cab;
+    --accent-ink: #fff;
+    --warn: #fab219;
+    --warn-ink: #1d1404;
+
+    --chart-bg: #fbfbfa;
+    --grid: #eceeef;
+    --axis: #c9ced3;
+    --night: rgb(30 50 80 / 0.07);
+    --midnight: #c3c9cf;
+    --now: #15191d;
+    --ref: #b3bac1;
+
+    --s-temp: #eb6834;
+    --s-feels: #4a3aa7;
+    --s-dew: #1baf7a;
+    --s-rain: #2a78d6;
+    --s-wind: #2a78d6;
+    --s-gust: #8a939c;
+    --s-sky: #7a848e;
+    --s-actual: #15191d;
+    --lead-0: #104281;
+    --lead-1: #1c5cab;
+    --lead-2: #2a78d6;
+    --lead-3: #5598e7;
+    --lead-4: #86b6ef;
+    --bias-pos: #e34948;
+    --bias-neg: #2a78d6;
+  }
+}

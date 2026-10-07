@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#101418" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f1f3f5" media="(prefers-color-scheme: light)">
+  <meta name="color-scheme" content="dark light">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>{{NAME}}</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="vendor/uPlot.min.css">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/app.css">
+  <script src="vendor/uPlot.iife.min.js"></script>
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+  <main class="app">
+    <section class="view" id="view-now" aria-label="Forecast">
+      <header class="now" id="now">
+        <div class="now__top">
+          <button class="placebtn" id="place-btn" aria-label="Change location"><span id="place-name">&nbsp;</span><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3"/></svg></button>
+          <span class="issued" id="now-issued">&nbsp;</span>
+        </div>
+        <div class="now__temp" id="now-temp">--</div>
+        <div class="now__side">
+          <div class="now__sky" id="now-sky">&nbsp;</div>
+          <div class="now__feels" id="now-feels">&nbsp;</div>
+          <div class="now__facts" id="now-facts">&nbsp;</div>
+        </div>
+        <div class="radar">
+          <a class="btn btn--radar" id="radar-link" href="https://radar.weather.gov/" target="_blank" rel="noopener">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><path d="M12 12l6-6"/></svg>
+            Radar
+          </a>
+          <a class="btn btn--ghost" id="windy-link" href="https://www.windy.com/" target="_blank" rel="noopener">Windy</a>
+        </div>
+        <div class="note-line" id="now-note" hidden></div>
+      </header>
+      <div class="problem" id="now-problem" hidden></div>
+
+      <nav class="days" id="days" aria-label="Days" title="Tap a day to zoom; drag a chart to read values, pinch to zoom"></nav>
+
+      <div class="readout" id="now-readout" aria-live="off"></div>
+      <div class="stack" id="now-stack"></div>
+    </section>
+
+    <section class="view" id="view-places" aria-label="Locations" hidden>
+      <h1 class="vhead">Locations</h1>
+      <p class="pl-empty" id="pl-empty" hidden>Add a place to see its forecast.</p>
+      <ul class="places" id="pl-list"></ul>
+      <h2 class="sub">Add a location</h2>
+      <button class="btn btn--wide" id="pl-geo" type="button">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.1-7-11.5a7 7 0 0 1 14 0C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+        Use my location
+      </button>
+      <form class="search" id="pl-search" role="search">
+        <input id="pl-q" type="search" placeholder="City, ZIP or lat, lon" aria-label="City, ZIP code or lat, lon" autocomplete="off" enterkeyhint="search">
+        <button class="btn" type="submit">Search</button>
+      </form>
+      <p class="pl-msg" id="pl-msg" role="status"></p>
+      <div class="results" id="pl-results"></div>
+      <p class="note">★ opens when the app starts. Forecasts are from the National Weather Service (US only); search by Open-Meteo.</p>
+      <p class="about">{{NAME}} · <button class="linkish" id="share" type="button">Share</button> · <a href="https://github.com/epiphenomena/nimbus" target="_blank" rel="noopener">Source</a> · <a href="https://epiphenomena.github.io/" target="_blank" rel="noopener">epiphenomena</a></p>
+    </section>
+  </main>
+
+  <nav class="tabs" aria-label="Views">
+    <button class="tab" data-view="now" aria-current="page">
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l5-6 4 3 4-7 5 6"/><path d="M3 21h18"/></svg>
+      <span>Forecast</span>
+    </button>
+    <a class="tab" id="radar-tab" href="https://radar.weather.gov/" target="_blank" rel="noopener">
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><path d="M12 12l6-6"/></svg>
+      <span>Radar</span>
+    </a>
+    <button class="tab" data-view="places">
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.1-7-11.5a7 7 0 0 1 14 0C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+      <span>Locations</span>
+    </button>
+  </nav>
+
+  <dialog class="picker" id="picker" aria-label="Locations">
+    <div class="picker__list" id="picker-list"></div>
+    <button class="btn btn--ghost btn--wide" id="picker-manage" type="button">Manage locations…</button>
+  </dialog>
+</body>
+</html>

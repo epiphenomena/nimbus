@@ -1,0 +1,18 @@
+# Nimbus on Cloudflare: static assets only (dist/, built from an allowlist by
+# tools/build-dist.mjs). No Worker script, no secrets: forecasts come straight
+# from api.weather.gov in the browser and locations live on the device.
+# `rake deploy` builds and deploys.
+#
+# RENAMING: the app's name lives in app.json (title, manifest, service worker
+# cache, Rakefile's SITE_URL) and in the two lines marked NAME below.
+name = "nimbus"                                                      # NAME
+compatibility_date = "2026-09-01"
+
+workers_dev = false
+preview_urls = false
+routes = [{ pattern = "nimbus.literal.work", custom_domain = true }] # NAME
+
+[assets]
+# Only what tools/build-dist.mjs copies in: never the project root.
+directory = "./dist"
+not_found_handling = "none"
