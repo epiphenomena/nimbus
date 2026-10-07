@@ -3,7 +3,7 @@
 // api.weather.gov and cached by the page itself (js/nwsapi.js, Cache API
 // 'wx-grid'), which this worker never touches. Bump VERSION when the file
 // list changes. ({{ID}} is filled in from app.json by tools/build-dist.mjs.)
-const VERSION = '{{ID}}-v3';
+const VERSION = '{{ID}}-v4';
 
 const SHELL = [
   './', 'index.html', 'manifest.webmanifest',

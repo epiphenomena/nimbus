@@ -31,22 +31,17 @@ button { font: inherit; color: inherit; }
 }
 .problem { margin: 16px 0; padding: 14px; border-radius: 10px; background: var(--surface); color: var(--text); font-size: 14px; }
 .view.loading .stack, .view.loading .readout, .view.loading .days, .view.loading .now > :not(.now__top) { opacity: .45; transition: opacity .2s; }
-.now { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 2px 12px; align-items: center; }
-.now__temp { font-size: 54px; font-weight: 300; line-height: 1; letter-spacing: -0.03em; }
+.now { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 2px 16px; align-items: center; }
+.now__temp { font-size: 64px; font-weight: 300; line-height: 1; letter-spacing: -0.03em; }
 .now__side { min-width: 0; line-height: 1.3; }
 .now__sky { font-size: 16px; font-weight: 600; }
-.now__feels, .now__facts { color: var(--text-dim); font-size: 13px; }
+.now__feels, .now__facts, .now__sun { color: var(--text-dim); font-size: 13px; }
 .now__facts { color: var(--text); }
-.radar { display: flex; flex-direction: column; gap: 5px; align-items: stretch; }
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 5px;
   min-height: 32px; padding: 4px 12px; border-radius: 999px; border: 1px solid var(--line);
   background: var(--surface); text-decoration: none; font-weight: 600; font-size: 14px;
 }
-.btn--radar { background: var(--accent); color: var(--accent-ink); border-color: transparent; }
-.btn--radar .icon { width: 17px; height: 17px; }
-.btn--ghost { background: transparent; color: var(--text-dim); font-weight: 500; min-height: 26px; padding: 2px 10px; font-size: 13px; }
-.now.rainy .btn--radar { box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }
 
 .issued { font-size: 11px; color: var(--text-faint); white-space: nowrap; }
 
@@ -128,6 +123,7 @@ button { font: inherit; color: inherit; }
 }
 .place__edit input:focus, .search input:focus { border-color: var(--accent); }
 .place--confirm { gap: 8px; padding-right: 4px; }
+.btn--ghost { background: transparent; color: var(--text-dim); font-weight: 500; min-height: 26px; padding: 2px 10px; font-size: 13px; }
 .btn--danger { background: var(--bias-pos); color: #fff; border-color: transparent; }
 .btn--wide { width: 100%; }
 .search { display: flex; gap: 8px; margin-top: 10px; }
@@ -176,6 +172,9 @@ button { font: inherit; color: inherit; }
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-size: 11px; cursor: pointer;
 }
 .tab[aria-current="page"] { color: var(--accent); }
+/* rain within 6h: the radar tab lights up */
+.tab.rainy { color: var(--accent); }
+.tab.rainy .icon { filter: drop-shadow(0 0 4px color-mix(in srgb, var(--accent) 70%, transparent)); }
 .tab .icon { width: 22px; height: 22px; }
 
 .error { padding: 24px 0; color: var(--text-dim); }

@@ -1,7 +1,7 @@
 // Now / forecast view: header, day strip, stacked meteogram.
 import { createStack, css, alpha, bars, refLines } from './charts.js';
 import { local, dayStart, whenLabel, dayLabel, dateLabel, hourLabel, ago } from './time.js';
-import { isNight } from './sun.js';
+import { isNight, sunTimes } from './sun.js';
 import { compass, fmt, isStale } from './fmt.js';
 
 const $ = id => document.getElementById(id);
@@ -32,9 +32,7 @@ export function renderNow(forecast, st = {}) {
   $('place-name').textContent = fc.place;
   $('place-btn').title = [fc.city, fc.state].filter(Boolean).join(', ');
   const radar = fc.radar ? `https://radar.weather.gov/station/${fc.radar}/standard` : `https://radar.weather.gov/?center=${fc.lon},${fc.lat}`;
-  $('radar-link').href = radar;
   $('radar-tab').href = radar;
-  $('windy-link').href = `https://www.windy.com/-Weather-radar-radar?radar,${fc.lat},${fc.lon},9`;
   header(iNow, now);
   issued();
   const xMin = xs[0], xMax = xs[n - 1];
@@ -98,9 +96,13 @@ function header(i, now) {
     rain = `${Math.round(S.pop[next])}% rain ${when}${peak !== next ? ` (peak ${Math.round(S.pop[peak])}%)` : ''}`;
   }
   $('now-facts').textContent = [wind, rain].filter(Boolean).join(' · ');
-  // a storm in the next 6h: make the radar button louder
+  // the next sunrise or sunset
+  const { rise, set } = sunTimes(now, fc.lat, fc.lon);
+  const sun = now < rise ? ['Sunrise', rise] : now < set ? ['Sunset', set] : ['Sunrise', sunTimes(now + 86400, fc.lat, fc.lon).rise];
+  $('now-sun').textContent = `${sun[0]} ${new Date(sun[1] * 1000).toLocaleTimeString('en-US', { timeZone: fc.tz, hour: 'numeric', minute: '2-digit' })}`;
+  // a storm in the next 6h: light up the radar tab
   const soon = S.pop.slice(i, i + 6).some(p => (p ?? 0) >= 40);
-  $('now').classList.toggle('rainy', soon);
+  $('radar-tab').classList.toggle('rainy', soon);
 }
 
 function issued() {
