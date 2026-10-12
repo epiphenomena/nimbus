@@ -222,7 +222,7 @@ function charts(xs, range, cursor, now) {
       data: [xs, S.dew, S.feels, S.temp],
       series: [line(alpha(c.dew, 0.75), 1.25), line(c.feels, 1.5), line(c.temp)],
       // a fixed scale, so a line means the same thing every day
-      y: { range: [-20, 120] }, ySplits: () => [0, 20, 40, 60, 80, 100],
+      y: { range: [0, 110] }, ySplits: () => [0, 20, 40, 60, 80, 100],
       plugins: [refLines([32], c.ref, v => `${v}°`)],
     },
     {
@@ -305,13 +305,14 @@ function readout(t, qpfAt) {
   const range = document.createElement('span');
   range.className = 'range';
   when.append(w, range);
-  const vals = document.createElement('div');
-  vals.className = 'readout__vals';
-  el.append(when, vals);
+  // two rows spread across the width: temperatures, then rain, cloud, amount, wind
+  const rows = [0, 1].map(() => Object.assign(document.createElement('div'), { className: 'readout__vals' }));
+  el.append(when, ...rows);
   if (stack) rangeLabel(range, ...stack.range);
   if (t == null) { w.textContent = ' '; return; }
   const i = Math.round((t - fc.t0) / fc.step), S = fc.series;
   w.textContent = whenLabel(t);
+  let vals = rows[0];
   const item = (color, value, label, kind) => {
     const s = document.createElement('span'); s.className = 'rv';
     if (color) { const k = document.createElement('i'); k.className = `key${kind ? ' key--' + kind : ''}`; k.style.color = color; if (kind === 'area') k.style.background = color; s.append(k); }
@@ -323,6 +324,7 @@ function readout(t, qpfAt) {
   item(css('--s-temp'), fmt.deg(S.temp[i]), '');
   item(css('--s-feels'), fmt.deg(S.feels[i]), 'feels');
   item(css('--s-dew'), fmt.deg(S.dew[i]), 'dew', 'thin');
+  vals = rows[1];
   item(css('--s-rain'), fmt.pct(S.pop[i]), 'rain');
   item(css('--s-sky'), fmt.pct(S.sky[i]), 'cloud', 'area');
   item(css('--s-rain'), `${fmt.inch(qpfAt(t))}″`, `/${QPF_BIN}h`, 'area');

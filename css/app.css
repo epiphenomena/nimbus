@@ -76,8 +76,8 @@ button { font: inherit; color: inherit; }
 .readout__when { font-weight: 600; font-size: 13px; padding-top: 4px; display: flex; justify-content: space-between; gap: 8px; }
 .readout__when .range { color: var(--text-faint); font-weight: 400; }
 .readout__when button { border: 0; background: none; color: var(--accent); padding: 0; font-size: 13px; cursor: pointer; }
-.readout__vals { display: flex; flex-wrap: wrap; gap: 0 12px; }
-.rv { white-space: nowrap; display: inline-flex; align-items: center; gap: 4px; }
+.readout__vals { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 6px; }
+.rv { white-space: nowrap; display: inline-flex; align-items: center; gap: 3px; }
 .rv b { font-weight: 600; color: var(--text); }
 .rv span { color: var(--text-dim); }
 .key { display: inline-block; width: 10px; height: 2px; border-radius: 1px; background: currentColor; flex: none; }
