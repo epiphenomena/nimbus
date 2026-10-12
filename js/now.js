@@ -210,7 +210,6 @@ function charts(xs, range, cursor, now) {
   const qpfAt = t => { const k = Math.floor((t - (xs[Math.max(0, binStart)])) / (QPF_BIN * 3600)); return qy[k] ?? null; };
 
   const line = (stroke, width = 2, extra = {}) => ({ stroke, width, points: { show: false }, spanGaps: false, ...extra });
-  const pad = (lo, hi) => [Math.floor(lo - 3), Math.ceil(hi + 3)];
   // desktop: wider plots get a bit more height
   const H = h => Math.round(h * (innerWidth >= 900 ? 1.45 : 1));
   const windMax = Math.max(15, ...S.gust.filter(v => v != null), ...S.wind.filter(v => v != null));
@@ -222,8 +221,9 @@ function charts(xs, range, cursor, now) {
       // drawn bottom to top: dew, feels, then temp on top
       data: [xs, S.dew, S.feels, S.temp],
       series: [line(alpha(c.dew, 0.75), 1.25), line(c.feels, 1.5), line(c.temp)],
-      y: { range: (u, lo, hi) => pad(lo, hi) },
-      plugins: [refLines([32, 100], c.ref, v => `${v}°`)],
+      // a fixed scale, so a line means the same thing every day
+      y: { range: [-20, 120] }, ySplits: () => [0, 20, 40, 60, 80, 100],
+      plugins: [refLines([32], c.ref, v => `${v}°`)],
     },
     {
       title: 'Rain chance & cloud %', height: H(68),

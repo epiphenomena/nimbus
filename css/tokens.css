@@ -31,7 +31,7 @@
   --s-feels: #9085e9;
   --s-dew: #199e70;
   --s-rain: #3987e5;
-  --s-wind: #3987e5;
+  --s-wind: #e3a21a;    /* amber: not rain blue, not temp orange */
   --s-gust: #7b8794;     /* recessive companion of wind */
   --s-sky: #8b96a3;
   --s-actual: #e3e8ee;   /* ink */
@@ -85,7 +85,7 @@
     --s-feels: #4a3aa7;
     --s-dew: #1baf7a;
     --s-rain: #2a78d6;
-    --s-wind: #2a78d6;
+    --s-wind: #a87405;
     --s-gust: #8a939c;
     --s-sky: #7a848e;
     --s-actual: #15191d;
